@@ -12,9 +12,6 @@
     <packaging>pom</packaging>
     <name>gameoflife</name>
 
-    <!-- ================================================= -->
-    <!--                 PROPIEDADES GLOBALES              -->
-    <!-- ================================================= -->
     <properties>
         <!-- Java 21 -->
         <java.version>21</java.version>
@@ -33,18 +30,12 @@
         <!-- <maven.central.url>https://repo.maven.apache.org/maven2</maven.central.url> -->
     </properties>
 
-    <!-- ================================================= -->
-    <!--                     SCM (opcional)                -->
-    <!-- ================================================= -->
     <scm>
         <connection>scm:git:git@github.com:wakaleo/game-of-life.git</connection>
         <developerConnection>scm:git:git@github.com:wakaleo/game-of-life.git</developerConnection>
         <url>scm:git:git@github.com:wakaleo/game-of-life.git</url>
     </scm>
 
-    <!-- ================================================= -->
-    <!--                BUILD & PLUGIN MGMT                -->
-    <!-- ================================================= -->
     <build>
         <!-- PLUGIN MANAGEMENT:
              Aquí definimos las versiones para que los submódulos las hereden.
