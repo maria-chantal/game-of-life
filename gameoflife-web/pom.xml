@@ -1,17 +1,25 @@
-<?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                        http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- Vinculación con el POM padre -->
     <parent>
-        <artifactId>gameoflife</artifactId>
         <groupId>com.wakaleo.gameoflife</groupId>
+        <artifactId>gameoflife</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>com.wakaleo.gameoflife</groupId>
+
     <artifactId>gameoflife-web</artifactId>
     <packaging>war</packaging>
     <name>gameoflife-web</name>
 
     <properties>
+        <!-- Jetty config para desarrollo local -->
         <jetty.port>9090</jetty.port>
         <jetty.stop.port>9999</jetty.stop.port>
     </properties>
@@ -24,24 +32,29 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+
         <plugins>
-          <plugin>
-              <groupId>org.eclipse.jetty</groupId>
-              <artifactId>jetty-maven-plugin</artifactId>
-              <version>9.3.0.v20150612</version>
-              <configuration>
-                  <scanIntervalSeconds>10</scanIntervalSeconds>
-                  <httpConnector>
-                      <port>${jetty.port}</port>
-                      <idleTimeout>60000</idleTimeout>
-                  </httpConnector>
-                  <stopKey>foo</stopKey>
-                  <stopPort>${jetty.stop.port}</stopPort>
-              </configuration>
-          </plugin>
+
+            <!-- Jetty Plugin ACTUALIZADO a 9.4.x (compatible con Java 21) -->
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <!-- Cambia a la versión 9.4.x más reciente que puedas usar -->
+                <version>9.4.51.v20230217</version>
+                <configuration>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <httpConnector>
+                        <port>${jetty.port}</port>
+                        <idleTimeout>60000</idleTimeout>
+                    </httpConnector>
+                    <stopKey>foo</stopKey>
+                    <stopPort>${jetty.stop.port}</stopPort>
+                </configuration>
+            </plugin>
+
+            <!-- WAR Plugin (versión heredada, por ejemplo 3.3.2 o 3.4.x) -->
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.4.0</version>
                 <configuration>
                     <manifest>
                         <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -50,15 +63,16 @@
                         <manifestEntries>
                             <Specification-Title>${project.name}</Specification-Title>
                             <Specification-Version>${project.version}</Specification-Version>
-                            <Implementation-Version>${BUILD_TAG}</Implementation-Version>
+                            <Implementation-Version>${build.number}</Implementation-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
+
+            <!-- Serenity plugin (versión heredada, por ejemplo 2.6.0) -->
             <plugin>
                 <groupId>net.serenity-bdd.maven.plugins</groupId>
                 <artifactId>serenity-maven-plugin</artifactId>
-                <version>${thucydides.version}</version>
                 <executions>
                     <execution>
                         <id>serenity-reports</id>
@@ -69,17 +83,18 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
+
     <profiles>
-        <!-- Deprecated: needs to be migrated to the webtests module. -->
         <profile>
             <id>performance</id>
             <build>
                 <plugins>
                     <plugin>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>3.10</version>
+                        <version>1.4</version>
                         <executions>
                             <execution>
                                 <id>run-jmeter</id>
@@ -100,6 +115,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>acceptance</id>
             <build>
@@ -115,18 +131,20 @@
             </build>
         </profile>
     </profiles>
+
     <dependencies>
+        <!-- Módulo core -->
         <dependency>
             <groupId>com.wakaleo.gameoflife</groupId>
             <artifactId>gameoflife-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <!-- Spring MVC (ejemplo) -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>3.0.2.RELEASE</version>
-            <type>jar</type>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -137,9 +155,9 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>3.0.2.RELEASE</version>
-            <type>jar</type>
-            <scope>compile</scope>
         </dependency>
+
+        <!-- JSTL y Servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
@@ -151,12 +169,16 @@
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Mockito -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>1.8.5</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Fest-assert, slf4j, etc. -->
         <dependency>
             <groupId>org.easytesting</groupId>
             <artifactId>fest-assert</artifactId>
@@ -172,6 +194,5 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.6.1</version>
         </dependency>
-
     </dependencies>
 </project>
